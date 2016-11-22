@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MobileFetch</string>
+    <string name="edit_message">Enter Zipcode</string>
+    <string name="button_search">Search</string>
 </resources>
