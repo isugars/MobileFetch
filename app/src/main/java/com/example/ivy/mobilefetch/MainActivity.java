@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
     }
     //add inner class
     //have to have this class to use UI thread; AsyncTask<Params, Progress, Result>
