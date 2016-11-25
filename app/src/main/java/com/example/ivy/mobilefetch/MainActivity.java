@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     //add inner class
     //have to have this class to use UI thread; AsyncTask<Params, Progress, Result>
     class GetPets extends AsyncTask<Void,Void,String> {
