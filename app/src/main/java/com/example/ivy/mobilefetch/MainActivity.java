@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        zipcodeText = (EditText)findViewById(R.id.zipcodeText);
+        responseView = (TextView)findViewById(R.id.responseView);
+
         Button queryButton = (Button) findViewById(R.id.button_search);
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
