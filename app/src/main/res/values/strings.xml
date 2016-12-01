@@ -2,4 +2,6 @@
     <string name="app_name">MobileFetch</string>
     <string name="edit_message">Enter Zipcode</string>
     <string name="button_search">Search</string>
+    <string name="title_photo_list">Photos</string>
+    <string name="title_photo_detail">Photo Detail</string>
 </resources>
