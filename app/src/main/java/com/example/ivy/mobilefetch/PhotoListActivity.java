@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -35,15 +37,31 @@ public class PhotoListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    EditText zipcodeText;
+    TextView responseView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_list);
 
+        zipcodeText = (EditText)findViewById(R.id.zipcodeText);
+        responseView = (TextView)findViewById(R.id.responseView);
+
+        Button queryButton = (Button) findViewById(R.id.button_search);
+        queryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //new GetPets().execute();
+                startActivity(new Intent(PhotoListActivity.this, PhotoListActivity.class));
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        /* commented out for later removal
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +70,7 @@ public class PhotoListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
 
         View recyclerView = findViewById(R.id.photo_list);
         assert recyclerView != null;
