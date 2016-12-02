@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.example.ivy.mobilefetch.dummy.DummyContent;
+import com.example.ivy.mobilefetch.dummy.PetContent;
 
 import java.util.List;
 
@@ -67,15 +67,16 @@ public class PhotoListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PetContent.ITEMS));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+        //results from the iterated JSON String--make a list of JSON objects that are photos
+        private final List<PetContent.PetPhoto> mValues;
 
-        private final List<DummyContent.DummyItem> mValues;
-
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        //takes the list of JSON objects and sets them to items
+        public SimpleItemRecyclerViewAdapter(List<PetContent.PetPhoto> items) {
             mValues = items;
         }
 
@@ -92,10 +93,11 @@ public class PhotoListActivity extends AppCompatActivity {
             holder.mIdView.setText(mValues.get(position).id);
             holder.mContentView.setText(mValues.get(position).content);
 
+            //accordian expansion to display details
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
+                    if (mTwoPane) {//ignore for now;this is tablet view
                         Bundle arguments = new Bundle();
                         arguments.putString(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         PhotoDetailFragment fragment = new PhotoDetailFragment();
@@ -103,9 +105,9 @@ public class PhotoListActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.photo_detail_container, fragment)
                                 .commit();
-                    } else {
+                    } else {//this is what we are worried about
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, PhotoDetailActivity.class);
+                        Intent intent = new Intent(context, PhotoDetailActivity.class);//photo details handled in PhotoDetailActivity.java
                         intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.id);
 
                         context.startActivity(intent);
@@ -123,7 +125,7 @@ public class PhotoListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public PetContent.PetPhoto mItem;
 
             public ViewHolder(View view) {
                 super(view);

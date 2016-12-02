@@ -1,5 +1,6 @@
 package com.example.ivy.mobilefetch;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -17,6 +23,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     EditText zipcodeText;
     TextView responseView;
+    protected JSONArray photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
         Button queryButton = (Button) findViewById(R.id.button_search);
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new GetPets().execute();
+            public void onClick(View view) {new GetPets().execute();
+                Intent intent = new Intent(MainActivity.this, PhotoListActivity.class);
+                startActivity(intent);
             }
         });
 
     }
+
+
 
     //add inner class
     //have to have this class to use UI thread; AsyncTask<Params, Progress, Result>
@@ -74,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     bufferedReader.close();
                     return stringBuilder.toString();
+
                 }
                 finally{
                     urlConnection.disconnect();
@@ -91,6 +102,18 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.i("INFO", response);
             responseView.setText(response);
+
+            try {
+
+                //create JSON object with response
+                JSONObject pet = (JSONObject) new JSONTokener(response).nextValue();
+                //create JSONArray of pet photos
+                photos = pet.getJSONArray("photos");
+                //display the list activity
+
+            }catch (JSONException e){
+
+            }
         }
     }
 }

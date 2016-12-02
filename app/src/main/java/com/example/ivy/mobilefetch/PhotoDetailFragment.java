@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ivy.mobilefetch.dummy.DummyContent;
+import com.example.ivy.mobilefetch.dummy.PetContent;
 
 /**
  * A fragment representing a single Photo detail screen.
@@ -27,7 +27,7 @@ public class PhotoDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private PetContent.PetPhoto mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,7 +44,7 @@ public class PhotoDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = PetContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
