@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
         Button queryButton = (Button) findViewById(R.id.button_search);
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {new GetPets().execute();
-                startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+            public void onClick(View view) {
+                new GetPets().execute();
+                //startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
             }
         });
 
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 response = "ERROR";
             }
             Log.i("INFO", response);
-            responseView.setText(response);
 
             try {
 
@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
             }catch (JSONException e){
 
             }
+
+            startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+
         }
     }
 }
