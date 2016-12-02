@@ -1,5 +1,8 @@
 package com.example.ivy.mobilefetch.dummy;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +54,7 @@ public class PetContent {
     /**
      * A dummy item representing a piece of content.
      */
-    public static class PetPhoto {
+    public static class PetPhoto implements Parcelable{
         public final String id;
         public final String content;
         public final String details;
@@ -62,9 +65,39 @@ public class PetContent {
             this.details = details;
         }
 
+        protected PetPhoto(Parcel in) {
+            id = in.readString();
+            content = in.readString();
+            details = in.readString();
+        }
+
+        public static final Creator<PetPhoto> CREATOR = new Creator<PetPhoto>() {
+            @Override
+            public PetPhoto createFromParcel(Parcel in) {
+                return new PetPhoto(in);
+            }
+
+            @Override
+            public PetPhoto[] newArray(int size) {
+                return new PetPhoto[size];
+            }
+        };
+
         @Override
         public String toString() {
             return content;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(id);
+            dest.writeString(content);
+            dest.writeString(details);
         }
     }
 }

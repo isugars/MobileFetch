@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.ivy.mobilefetch.dummy.PetContent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,12 +111,24 @@ public class MainActivity extends AppCompatActivity {
                 //create JSONArray of pet photos
                 photos = pet.getJSONArray("photos");
                 //display the list activity
+                PetContent.PetPhoto pets = new PetContent.PetPhoto(pet.getString("name"),pet.getString("photo"),pet.getString("descrition"));
+                /*
+                for(int i = 0; !photos.isNull(i); i++)
+                {
+                    pets[i] = new Pet(pet.getString("name"),pet.getString("photo"),pet.getString("city"),pet.getString("state"),pet.getString("descrition"));
+                }
+                */
+                Bundle bundleOfJoy = new Bundle();
+                //bundleOfJoy.putParcelableArray("pets",pets);
+                Intent photoActivityIntent = new Intent(MainActivity.this, PhotoListActivity.class);
+                photoActivityIntent.putExtras(bundleOfJoy);
+                startActivity(photoActivityIntent);
 
             }catch (JSONException e){
 
             }
 
-            startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+
 
         }
     }
