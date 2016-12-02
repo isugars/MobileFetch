@@ -1,5 +1,6 @@
 package com.example.ivy.mobilefetch;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GetPets().execute();
+                //new GetPets().execute();
+                startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+
             }
         });
 
