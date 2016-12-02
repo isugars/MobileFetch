@@ -1,5 +1,6 @@
 package com.example.ivy.mobilefetch;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //new GetPets().execute();
                 startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
-
             }
         });
 
