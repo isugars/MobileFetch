@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {new GetPets().execute();
-                Intent intent = new Intent(MainActivity.this, PhotoListActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
             }
         });
 
