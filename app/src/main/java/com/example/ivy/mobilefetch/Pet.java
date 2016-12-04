@@ -19,6 +19,26 @@ public class Pet implements Parcelable
         this.description = description;
     }
 
+    protected Pet(Parcel in) {
+        name = in.readString();
+        photo = in.readString();
+        city = in.readString();
+        state = in.readString();
+        description = in.readString();
+    }
+
+    public static final Creator<Pet> CREATOR = new Creator<Pet>() {
+        @Override
+        public Pet createFromParcel(Parcel in) {
+            return new Pet(in);
+        }
+
+        @Override
+        public Pet[] newArray(int size) {
+            return new Pet[size];
+        }
+    };
+
     public String getName()
     {
         return(name);
@@ -51,6 +71,10 @@ public class Pet implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(name);
+        dest.writeString(photo);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(description);
     }
 }

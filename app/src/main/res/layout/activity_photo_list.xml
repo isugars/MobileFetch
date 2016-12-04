@@ -34,7 +34,6 @@
                 android:text="@string/button_search"
                 android:onClick="searchZip" />
         </LinearLayout>
-
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
