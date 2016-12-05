@@ -3,6 +3,7 @@ package com.example.ivy.mobilefetch;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,9 @@ import android.widget.TextView;
 import com.example.ivy.mobilefetch.dummy.PetContent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An activity representing a list of Photos. This activity
@@ -35,6 +38,8 @@ public class PhotoListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+
+    public static Map<String, Pet> PET_MAP = new HashMap<>();
 
     EditText zipcodeText;
     TextView responseView;
@@ -72,11 +77,25 @@ public class PhotoListActivity extends AppCompatActivity {
         */
 
         //get the bundle of pets (at some point, we'll need to change this array to an ArrayList for less redundancy)
-        Bundle bundleOfJoy = this.getIntent().getBundleExtra("pets");
-        ArrayList<Pet> petItems = bundleOfJoy.getParcelableArrayList("pets");
+        //Bundle bundleOfJoy = this.getIntent().getBundleExtra("activitypets");
+        //ArrayList<Pet> petItems = bundleOfJoy.getParcelableArrayList("bundlepets");
 
-        //Pet[] petList = (Pet[])this.getIntent().getExtras("pets");
-        //PetContent.PetContentList = petList;
+        //ArrayList<Pet> petItems = this.getIntent().getParcelableArrayListExtra("activitypets");
+        //data = this.getIntent().getParcelableArrayListExtra("activitypets");
+
+        Intent listIntent = getIntent();
+        //Bundle listBundle = listIntent.getExtras();
+        //data = listBundle.getParcelableArrayList("activitypets");
+
+        ArrayList<Pet> petItems = listIntent.getParcelableArrayListExtra("activitypets");
+        int test = petItems.size();
+
+        //this will print the number of successfully stored pets (1 if only the dummy)
+        //prints to "Run" in the format "I/System.out: #" where # is the number of pets
+        System.out.println(test);
+
+        for(int i = 0; i < petItems.size(); i++)
+            PET_MAP.put(petItems.get(i).getName(), petItems.get(i));
 
         View recyclerView = findViewById(R.id.photo_list);
         assert recyclerView != null;

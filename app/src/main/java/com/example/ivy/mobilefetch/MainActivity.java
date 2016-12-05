@@ -3,6 +3,7 @@ package com.example.ivy.mobilefetch;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //new GetPets().execute();
-                startActivity(new Intent(MainActivity.this, PhotoListActivity.class));
+                new GetPets().execute();
+                /*
+                GetPets getPets = new GetPets();
+                getPets.execute();
+                startActivity(getPets.getIntent());
+                */
             }
         });
 
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         static final String API_KEY = "1e75a3f1a65d2d1ab6441a067e8cd602";
         static final String API_URL = "http://api.petfinder.com/";
         static final String FORMAT = "format=json";
+        Intent photoActivityIntent;
         /*
         Four methods with AsyncTask:
         1) onPreExecute()
@@ -105,40 +111,35 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.i("INFO", response);
 
+            ArrayList<Pet> pets = new ArrayList<>();
+            pets.add(new Pet("dummy", "photo", "city", "state", "this is just a dummy for testing purposes"));
             try {
-                JSONObject pet;
-                //Pet[] pets = new Pet[response.length()];
-                ArrayList<Pet> pets = new ArrayList<>();
+                JSONObject pet  = (JSONObject) new JSONTokener(response).nextValue();
+                pets.add(new Pet(pet.getString("name"), pet.getString("photo"), pet.getString("city"), pet.getString("state"), pet.getString("description")));
 
-                for(int i = 0; i < response.length(); i++)
+                for(int i = 0; i < pet.length(); i++)
                 {
                     //create JSON object with response
                     pet = (JSONObject) new JSONTokener(response).nextValue();
-
-                    //create JSONArray of pet photos
-                    //photos = pet.getJSONArray("photos");
 
                     //put content in a ArrayList of Pet objects
                     pets.add(new Pet(pet.getString("name"), pet.getString("photo"), pet.getString("city"), pet.getString("state"), pet.getString("description")));
                 }
 
-                //bundle to hold all these pets yo
-                Bundle bundleOfJoy = new Bundle();
-                bundleOfJoy.putParcelableArrayList("pets", pets);
 
-                //new activity for search results
-                Intent photoActivityIntent = new Intent(MainActivity.this, PhotoListActivity.class);
-
-                //shove dat bundle of pets in there
-                photoActivityIntent.putExtra("pets", bundleOfJoy);
-
-                //start activity w/ bundle of pets
-                startActivity(photoActivityIntent);
             }catch (JSONException e){
 
             }
 
+            //new activity for search results
+            photoActivityIntent = new Intent(MainActivity.this, PhotoListActivity.class);
 
+            //shove dat bundle of pets in there
+            photoActivityIntent.putParcelableArrayListExtra("activitypets", pets);
+
+            //start activity w/ bundle of pets
+            startActivity(photoActivityIntent);
         }
+
     }
 }
