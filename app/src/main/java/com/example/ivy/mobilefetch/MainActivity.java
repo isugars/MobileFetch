@@ -3,8 +3,6 @@ package com.example.ivy.mobilefetch;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText zipcodeText;
@@ -115,23 +112,38 @@ public class MainActivity extends AppCompatActivity {
 
             for(int i = 0; i < 5; i++)
                 pets.add(new Pet("dummy"+i, "http://photos.petfinder.com/photos/pets/28541706/1/?bust=1438232275&width=60&-pnt.jpg", "city", "state", "this is just a dummy for testing purposes"));
-
+            JSONObject pet = null;
             try {
-                JSONObject pet  = (JSONObject) new JSONTokener(response).nextValue();
-                pets.add(new Pet(pet.getString("name"), pet.getString("photo"), pet.getString("city"), pet.getString("state"), pet.getString("description")));
 
-                for(int i = 0; i < pet.length(); i++)
+                System.out.println("response length: " + response.length());
+                for(int i = 0; i < response.length(); i++)
                 {
+                    if(i > 50)
+                        break;
                     //create JSON object with response
                     pet = (JSONObject) new JSONTokener(response).nextValue();
+                    //System.out.println(pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("name").get("$t"));
+                    String name, photo, city, state, description;
+                    photo = "";
+                    city = "";
+                    name = pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("name").get("$t").toString();
+                    System.out.println(name);
+                    photo = pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("media").getJSONObject("photos").getJSONArray("photo").getJSONObject(1).get("$t").toString();
+                    System.out.println(photo);
+                    city = pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("contact").getJSONObject("city").get("$t").toString();
+                    System.out.println(city);
+                    state = pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("contact").getJSONObject("state").get("$t").toString();
+                    System.out.println(state);
+                    description = pet.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet").getJSONObject(2).getJSONObject("description").get("$t").toString();
+                    System.out.println(description);
 
                     //put content in a ArrayList of Pet objects
-                    pets.add(new Pet(pet.getString("name"), pet.getString("photo"), pet.getString("city"), pet.getString("state"), pet.getString("description")));
+                    pets.add(new Pet(name, photo, city, state, description));
                 }
 
 
             }catch (JSONException e){
-
+                System.out.println("caught stuff");
             }
 
             //new activity for search results
