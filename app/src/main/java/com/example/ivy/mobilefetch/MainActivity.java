@@ -112,7 +112,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i("INFO", response);
 
             ArrayList<Pet> pets = new ArrayList<>();
-            pets.add(new Pet("dummy", "photo", "city", "state", "this is just a dummy for testing purposes"));
+
+            for(int i = 0; i < 5; i++)
+                pets.add(new Pet("dummy"+i, "http://photos.petfinder.com/photos/pets/28541706/1/?bust=1438232275&width=60&-pnt.jpg", "city", "state", "this is just a dummy for testing purposes"));
+
             try {
                 JSONObject pet  = (JSONObject) new JSONTokener(response).nextValue();
                 pets.add(new Pet(pet.getString("name"), pet.getString("photo"), pet.getString("city"), pet.getString("state"), pet.getString("description")));
