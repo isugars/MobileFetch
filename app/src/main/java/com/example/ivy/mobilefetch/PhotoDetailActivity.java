@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 /**
  * An activity representing a single Photo detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
@@ -26,6 +28,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        /* commented out for later removal
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +37,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -75,7 +79,12 @@ public class PhotoDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, PhotoListActivity.class));
+
+            ArrayList<Pet> pets = getIntent().getParcelableArrayListExtra("activitypets");
+            Intent intent = new Intent(this, PhotoListActivity.class);
+            intent.putParcelableArrayListExtra("activitypets", pets);
+
+            NavUtils.navigateUpTo(this, intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

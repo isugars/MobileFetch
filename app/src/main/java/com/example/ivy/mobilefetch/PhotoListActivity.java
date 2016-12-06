@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,12 +21,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ivy.mobilefetch.dummy.PetContent;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +48,7 @@ public class PhotoListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    public static ArrayList<Pet> petItems = new ArrayList<>();
     public static Map<String, Pet> PET_MAP = new HashMap<>();
 
     EditText zipcodeText;
@@ -61,6 +62,7 @@ public class PhotoListActivity extends AppCompatActivity {
         zipcodeText = (EditText)findViewById(R.id.zipcodeText);
         responseView = (TextView)findViewById(R.id.responseView);
 
+        /* (search bar) commented out for later removal
         Button queryButton = (Button) findViewById(R.id.button_search);
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,40 +71,33 @@ public class PhotoListActivity extends AppCompatActivity {
                 startActivity(new Intent(PhotoListActivity.this, PhotoListActivity.class));
             }
         });
+        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        /* commented out for later removal
+        // commented out for later removal (or later use as template)
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                */
+                startActivity(new Intent(PhotoListActivity.this, MainActivity.class));
             }
         });
-        */
 
-        //get the bundle of pets (at some point, we'll need to change this array to an ArrayList for less redundancy)
-        //Bundle bundleOfJoy = this.getIntent().getBundleExtra("activitypets");
-        //ArrayList<Pet> petItems = bundleOfJoy.getParcelableArrayList("bundlepets");
 
-        //ArrayList<Pet> petItems = this.getIntent().getParcelableArrayListExtra("activitypets");
-        //data = this.getIntent().getParcelableArrayListExtra("activitypets");
+        //get list of pets from intent
+        petItems = getIntent().getParcelableArrayListExtra("activitypets");
 
-        Intent listIntent = getIntent();
-        //Bundle listBundle = listIntent.getExtras();
-        //data = listBundle.getParcelableArrayList("activitypets");
+        //outputs list size to console for reference and debugging
+        System.out.println(petItems.size());
 
-        ArrayList<Pet> petItems = listIntent.getParcelableArrayListExtra("activitypets");
-        int test = petItems.size();
-
-        //this will print the number of successfully stored pets (1 if only the dummy)
-        //prints to "Run" in the format "I/System.out: #" where # is the number of pets
-        System.out.println(test);
-
+        //fill hashmap for detail fragment
         for(int i = 0; i < petItems.size(); i++)
             PET_MAP.put(petItems.get(i).getName(), petItems.get(i));
 
@@ -163,6 +158,7 @@ public class PhotoListActivity extends AppCompatActivity {
                         Intent intent = new Intent(context, PhotoDetailActivity.class);//photo details handled in PhotoDetailActivity.java
                         intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
 
+                        intent.putParcelableArrayListExtra("activitypets", petItems);
                         context.startActivity(intent);
                     }
                 }
