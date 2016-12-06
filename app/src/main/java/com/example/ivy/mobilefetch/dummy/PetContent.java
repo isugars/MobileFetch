@@ -50,9 +50,9 @@ public class PetContent {
 
     private static Pet createPetPhoto(int position) {
         if(PetContentList.length > 0)
-            return new Pet(PetContentList[position].getName(), PetContentList[position].getPhoto(), PetContentList[position].getCity(), PetContentList[position].getState(), makeDetails(position));
+            return new Pet(PetContentList[position].getName(), PetContentList[position].getPhoto(), PetContentList[position].getCity(), PetContentList[position].getState(), makeDetails(position),"");
         else
-            return new Pet("Nothing found","","","","");
+            return new Pet("Nothing found","","","","","");
     }
 
     private static String makeDetails(int position) {

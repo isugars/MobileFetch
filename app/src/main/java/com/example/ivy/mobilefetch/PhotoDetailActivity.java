@@ -21,6 +21,8 @@ import java.util.ArrayList;
  */
 public class PhotoDetailActivity extends AppCompatActivity {
 
+    ArrayList<Pet> pets;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +30,16 @@ public class PhotoDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        /* commented out for later removal
+        pets = getIntent().getParcelableArrayListExtra("activitypets");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Contact: "  + pets.get(getIntent().getIntExtra(PhotoDetailFragment.ARG_ITEM_ID+"_index",0)).getContact(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).setDuration(Snackbar.LENGTH_INDEFINITE).show();
             }
         });
-        */
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -80,7 +82,6 @@ public class PhotoDetailActivity extends AppCompatActivity {
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
 
-            ArrayList<Pet> pets = getIntent().getParcelableArrayListExtra("activitypets");
             Intent intent = new Intent(this, PhotoListActivity.class);
             intent.putParcelableArrayListExtra("activitypets", pets);
 

@@ -127,15 +127,16 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject pet = objList.getJSONObject(i);
 
                     //get relevant data
-                    String name, photo, city, state, description;
+                    String name, photo, city, state, description, contact;
                     name = pet.getJSONObject("name").get("$t").toString();
                     photo = pet.getJSONObject("media").getJSONObject("photos").getJSONArray("photo").getJSONObject(1).get("$t").toString();
                     city = pet.getJSONObject("contact").getJSONObject("city").get("$t").toString();
                     state = pet.getJSONObject("contact").getJSONObject("state").get("$t").toString();
                     description = pet.getJSONObject("description").get("$t").toString();
+                    contact = pet.getJSONObject("contact").getJSONObject("email").get("$t").toString();
 
                     //put data in a ArrayList of Pet objects
-                    pets.add(new Pet(name, photo, city, state, description));
+                    pets.add(new Pet(name, photo, city, state, description,contact));
                 }
             }catch (JSONException e){
                 System.out.println("caught stuff");

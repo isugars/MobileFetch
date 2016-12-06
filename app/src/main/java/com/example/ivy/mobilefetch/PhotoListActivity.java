@@ -136,7 +136,7 @@ public class PhotoListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getName() + "\n" + mValues.get(position).getCity() + ", " + mValues.get(position).getState());
             new DownloadImageTask(holder.mContentView).execute(mValues.get(position).getPhoto());
@@ -157,6 +157,8 @@ public class PhotoListActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, PhotoDetailActivity.class);//photo details handled in PhotoDetailActivity.java
                         intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
+
+                        intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID + "_index", position);
 
                         intent.putParcelableArrayListExtra("activitypets", petItems);
                         context.startActivity(intent);

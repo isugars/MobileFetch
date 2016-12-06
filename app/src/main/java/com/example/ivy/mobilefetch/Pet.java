@@ -9,14 +9,15 @@ import android.os.Parcelable;
 
 public class Pet implements Parcelable
 {
-    final String name, photo, city, state, description;
-    public Pet(String name, String photo, String city, String state, String description)
+    private final String name, photo, city, state, description, contact;
+    public Pet(String name, String photo, String city, String state, String description, String contact)
     {
         this.name = name;
         this.photo = photo;
         this.city = city;
         this.state = state;
         this.description = description;
+        this.contact = contact;
     }
 
     protected Pet(Parcel in) {
@@ -25,6 +26,7 @@ public class Pet implements Parcelable
         city = in.readString();
         state = in.readString();
         description = in.readString();
+        contact = in.readString();
     }
 
     public static final Creator<Pet> CREATOR = new Creator<Pet>() {
@@ -64,6 +66,11 @@ public class Pet implements Parcelable
         return(description);
     }
 
+    public String getContact()
+    {
+        return(contact);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -76,5 +83,6 @@ public class Pet implements Parcelable
         dest.writeString(city);
         dest.writeString(state);
         dest.writeString(description);
+        dest.writeString(contact);
     }
 }
