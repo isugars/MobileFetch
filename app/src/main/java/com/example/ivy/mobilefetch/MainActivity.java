@@ -24,13 +24,19 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     EditText zipcodeText;
     TextView responseView;
-    protected JSONArray photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        defineUI(savedInstanceState);
+        retrieveWidgets();
+    }
+
+    private void defineUI(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
+    private void retrieveWidgets(){
         zipcodeText = (EditText)findViewById(R.id.zipcodeText);
         responseView = (TextView)findViewById(R.id.responseView);
 
@@ -44,12 +50,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    //add inner class
-    //have to have this class to use UI thread; AsyncTask<Params, Progress, Result>
     class GetPets extends AsyncTask<Void,Void,String> {
         private String zipcode;
-
+        private URL url;
+        static final int MAXPETS=50;
         static final String METHOD = "pet.find?";
         static final String API_KEY = "1e75a3f1a65d2d1ab6441a067e8cd602";
         static final String API_URL = "http://api.petfinder.com/";
@@ -64,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
          */
         protected void onPreExecute() {
             responseView.setText("");
-
             zipcode = zipcodeText.getText().toString();
         }
 
@@ -72,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... urls) {
 
             try {
-                URL url = new URL(API_URL + METHOD  + FORMAT + "&key=" +  API_KEY  + "&location=" + zipcode);
-                //API_REQUEST:http://api.petfinder.com/pet.get?format=json&key=12345&location=24601
+                url = new URL(API_URL + METHOD  + FORMAT + "&key=" +  API_KEY  + "&location=" + zipcode);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -97,11 +99,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            if (response == null) {
-                response = "ERROR";
-            }
-            Log.i("INFO", response);
-
+            handNullResponse(response);
             //init list of Pet objects to be passed to new activity
             ArrayList<Pet> pets = new ArrayList<>();
 
@@ -110,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(response);
 
             try {
-                //get list of pets
-                JSONObject obj = (JSONObject) new JSONTokener(response).nextValue();
-                JSONArray objList = obj.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet");
+                JSONArray objList = getListOfPets(response);
 
                 //pet list size output to console for reference and debugging
                 System.out.println("list length: " + objList.length());
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 2; i < objList.length(); i++)
                 {
                     //maximum threshold to avoid having way too many results shown
-                    if(i > 50)
+                    if(i > MAXPETS)
                         break;
 
                     //create JSON object with response
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     pets.add(new Pet(name, photo, city, state, description,contact));
                 }
             }catch (JSONException e){
-                System.out.println("caught stuff");
+                Log.e("Invalid JSON", pets.toString());
             }
 
             //new activity for search results
@@ -150,6 +146,24 @@ public class MainActivity extends AppCompatActivity {
 
             //start activity w/ bundle of pets
             startActivity(photoActivityIntent);
+        }
+
+        private void handNullResponse(String response){
+            if (response == null) {
+                response = "ERROR";
+            }
+            Log.i("No response: ", response);
+        }
+
+        private JSONArray getListOfPets(String response) {
+            JSONArray objList = null;
+            try {
+                JSONObject obj = (JSONObject) new JSONTokener(response).nextValue();
+                objList = obj.getJSONObject("petfinder").getJSONObject("pets").getJSONArray("pet");
+            } catch (JSONException e) {
+                Log.i("Not a valid response: ", response);
+            }
+            return objList;
         }
 
     }
