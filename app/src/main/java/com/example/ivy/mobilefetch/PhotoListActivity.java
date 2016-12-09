@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,15 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -93,9 +86,6 @@ public class PhotoListActivity extends AppCompatActivity {
 
         //get list of pets from intent
         petItems = getIntent().getParcelableArrayListExtra("activitypets");
-
-        //outputs list size to console for reference and debugging
-        System.out.println(petItems.size());
 
         //fill hashmap for detail fragment
         for(int i = 0; i < petItems.size(); i++)

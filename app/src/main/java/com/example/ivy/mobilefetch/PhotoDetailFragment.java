@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ivy.mobilefetch.dummy.PetContent;
 
 /**
  * A fragment representing a single Photo detail screen.

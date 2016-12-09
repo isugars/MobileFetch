@@ -59,13 +59,7 @@ public class MainActivity extends AppCompatActivity {
         static final String API_URL = "http://api.petfinder.com/";
         static final String FORMAT = "format=json";
         Intent photoActivityIntent;
-        /*
-        Four methods with AsyncTask:
-        1) onPreExecute()
-        2) doInBackground(Void...urls)
-        3) onProgressUpdate()
-        4) onPostExecute(String result)
-         */
+
         protected void onPreExecute() {
             responseView.setText("");
             zipcode = zipcodeText.getText().toString();
@@ -100,52 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String response) {
             handNullResponse(response);
-            //init list of Pet objects to be passed to new activity
             ArrayList<Pet> pets = new ArrayList<>();
-
-            //response output to console for reference and debugging
-            System.out.println("response length: " + response.length());
-            System.out.println(response);
-
-            try {
-                JSONArray objList = getListOfPets(response);
-
-                //pet list size output to console for reference and debugging
-                System.out.println("list length: " + objList.length());
-
-                for(int i = 2; i < objList.length(); i++)
-                {
-                    //maximum threshold to avoid having way too many results shown
-                    if(i > MAXPETS)
-                        break;
-
-                    //create JSON object with response
-                    JSONObject pet = objList.getJSONObject(i);
-
-                    //get relevant data
-                    String name, photo, city, state, description, contact;
-                    name = pet.getJSONObject("name").get("$t").toString();
-                    photo = pet.getJSONObject("media").getJSONObject("photos").getJSONArray("photo").getJSONObject(1).get("$t").toString();
-                    city = pet.getJSONObject("contact").getJSONObject("city").get("$t").toString();
-                    state = pet.getJSONObject("contact").getJSONObject("state").get("$t").toString();
-                    description = pet.getJSONObject("description").get("$t").toString();
-                    contact = pet.getJSONObject("contact").getJSONObject("email").get("$t").toString();
-
-                    //put data in a ArrayList of Pet objects
-                    pets.add(new Pet(name, photo, city, state, description,contact));
-                }
-            }catch (JSONException e){
-                Log.e("Invalid JSON", pets.toString());
-            }
-
-            //new activity for search results
-            photoActivityIntent = new Intent(MainActivity.this, PhotoListActivity.class);
-
-            //put ArrayList of Pets into the intent
-            photoActivityIntent.putParcelableArrayListExtra("activitypets", pets);
-
-            //start activity w/ bundle of pets
-            startActivity(photoActivityIntent);
+            parsePets(pets,response);
+            setIntentForNextActivity(pets);
         }
 
         private void handNullResponse(String response){
@@ -153,6 +104,27 @@ public class MainActivity extends AppCompatActivity {
                 response = "ERROR";
             }
             Log.i("No response: ", response);
+        }
+
+        private void parsePets(ArrayList<Pet> pets, String response){
+            try {
+                JSONArray objList = getListOfPets(response);
+
+                for(int i = 2; i < objList.length(); i++)
+                {
+                    JSONObject pet = objList.getJSONObject(i);
+                    String name, photo, city, state, description, contact;
+                    name = pet.getJSONObject("name").get("$t").toString();
+                    photo = pet.getJSONObject("media").getJSONObject("photos").getJSONArray("photo").getJSONObject(1).get("$t").toString();
+                    city = pet.getJSONObject("contact").getJSONObject("city").get("$t").toString();
+                    state = pet.getJSONObject("contact").getJSONObject("state").get("$t").toString();
+                    description = pet.getJSONObject("description").get("$t").toString();
+                    contact = pet.getJSONObject("contact").getJSONObject("email").get("$t").toString();
+                    pets.add(new Pet(name, photo, city, state, description,contact));
+                }
+            }catch (JSONException e){
+                Log.e("Invalid JSON", pets.toString());
+            }
         }
 
         private JSONArray getListOfPets(String response) {
@@ -164,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Not a valid response: ", response);
             }
             return objList;
+        }
+
+        private void setIntentForNextActivity(ArrayList<Pet> pets){
+            photoActivityIntent = new Intent(MainActivity.this, PhotoListActivity.class);
+            photoActivityIntent.putParcelableArrayListExtra("activitypets", pets);
+            startActivity(photoActivityIntent);
         }
 
     }
