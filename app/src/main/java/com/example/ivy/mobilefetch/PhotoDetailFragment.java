@@ -1,13 +1,20 @@
 package com.example.ivy.mobilefetch;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.InputStream;
 
 
 /**
@@ -26,7 +33,7 @@ public class PhotoDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Pet mItem; //PetContent.PetPhoto mItem;
+    private Pet mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,11 +66,37 @@ public class PhotoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.photo_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        //description text
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.photo_detail)).setText(mItem.getDescription()); //(mItem.details);
+            ((TextView) rootView.findViewById(R.id.photo_detail)).setText(mItem.getDescription());
+            new DownloadImageTask((ImageView)rootView.findViewById(R.id.content)).execute(mItem.getPhoto());
         }
 
         return rootView;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mImage = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mImage = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mImage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }

@@ -75,10 +75,6 @@ public class PhotoListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                */
                 startActivity(new Intent(PhotoListActivity.this, MainActivity.class));
             }
         });
@@ -135,7 +131,7 @@ public class PhotoListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {//ignore for now;this is tablet view
+                    if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
                         PhotoDetailFragment fragment = new PhotoDetailFragment();
@@ -143,9 +139,9 @@ public class PhotoListActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.photo_detail_container, fragment)
                                 .commit();
-                    } else {//this is what we are worried about
+                    } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, PhotoDetailActivity.class);//photo details handled in PhotoDetailActivity.java
+                        Intent intent = new Intent(context, PhotoDetailActivity.class);
                         intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
 
                         intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID + "_index", position);
@@ -193,15 +189,15 @@ public class PhotoListActivity extends AppCompatActivity {
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
+            Bitmap mImage = null;
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                mImage = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
-            return mIcon11;
+            return mImage;
         }
 
         protected void onPostExecute(Bitmap result) {

@@ -1,9 +1,29 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/photo_detail"
-    style="?android:attr/textAppearanceLarge"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="com.example.ivy.mobilefetch.PhotoDetailFragment" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp">
+
+    <!-- Description of pet -->
+    <TextView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/photo_detail"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context="com.example.ivy.mobilefetch.PhotoDetailFragment" />
+
+    <!-- Photo of pet -->
+    <ImageView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="72dp"
+        android:padding="32dp"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_gravity="center_horizontal"
+        />
+</LinearLayout>
