@@ -6,7 +6,6 @@ import android.os.Parcelable;
 /**
  * Class to create a pet object to pass to PhotoListActivity
  */
-
 public class Pet implements Parcelable
 {
     private final String name, photo, city, state, description, contact;

@@ -1,5 +1,11 @@
 package com.example.ivy.mobilefetch;
 
+/**
+ * @author Michael Seils and Ivy Sugars
+ * 12/13/16
+ * @version 2.5
+ */
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,9 +28,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * @author Michael Seils and Ivy Sugars
- * 12/13/16
- * @version 2.5
+ * public class that controls the main activity function of the app.
  */
 public class MainActivity extends AppCompatActivity {
     EditText zipcodeText;
@@ -54,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     /**
-     *
+     * Mandatory inner class to enable proper use of UI thread.
      */
     class GetPets extends AsyncTask<Void,Void,String> {
         private String zipcode;
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Intent photoActivityIntent;
 
         /**
-         *
+         * Before the task is executed, this invoked on thread to setup for task.
          */
         protected void onPreExecute() {
             responseView.setText("");
@@ -77,30 +80,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /**
-         *
-         * @param urls
-         * @return
+         * Mandatory method to control functionality when UI thread is open.
+         * @param urls - url to open thread and get response from.
+         * @return - returns a string in JSON format, representing the response.
          */
         @Override
         protected String doInBackground(Void... urls) {
+            return getPetsFromURLS();
+        }
 
+        private String getPetsFromURLS(){
             try {
-                url = new URL(API_URL + METHOD  + FORMAT + "&key=" +  API_KEY  + "&location=" + zipcode);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
-                    }
-                    bufferedReader.close();
-                    return stringBuilder.toString();
-
-                }
-                finally{
-                    urlConnection.disconnect();
-                }
+                return readInputStream(openHttpURLConnection());
             }
             catch(Exception error) {
                 Log.e("Error",error.getMessage(),error);
@@ -108,9 +99,41 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        private HttpURLConnection openHttpURLConnection(){
+            try{
+                url = new URL(API_URL + METHOD  + FORMAT + "&key=" +  API_KEY  + "&location=" + zipcode);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                return urlConnection;
+            }catch(Exception error) {
+                Log.e("Error",error.getMessage(),error);
+                return null;
+            }
+        }
+
+        private String readInputStream(HttpURLConnection urlConnection){
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                bufferedReader.close();
+                return stringBuilder.toString();
+
+            }
+
+            catch(Exception error) {
+                Log.e("Error",error.getMessage(),error);
+                return null;
+            }finally {
+                urlConnection.disconnect();
+            }
+        }
+
         /**
-         *
-         * @param response
+         * Required method for functionality after UI thread computations are complete.
+         * @param response - the String response from doInBackground().
          */
         protected void onPostExecute(String response) {
             handNullResponse(response);
