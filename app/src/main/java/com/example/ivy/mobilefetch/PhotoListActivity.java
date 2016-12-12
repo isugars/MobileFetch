@@ -78,14 +78,27 @@ public class PhotoListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(petList));
     }
 
+    /**
+     *
+     */
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
         private final List<Pet> mValues;
 
+        /**
+         *
+         * @param items
+         */
         public SimpleItemRecyclerViewAdapter(List<Pet> items) {
             mValues = items;
         }
 
+        /**
+         *
+         * @param parent
+         * @param viewType
+         * @return
+         */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -93,6 +106,11 @@ public class PhotoListActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+        /**
+         *
+         * @param holder
+         * @param position
+         */
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
@@ -123,11 +141,18 @@ public class PhotoListActivity extends AppCompatActivity {
             });
         }
 
+        /**
+         *
+         * @return
+         */
         @Override
         public int getItemCount() {
             return mValues.size();
         }
 
+        /**
+         *
+         */
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mIdView;

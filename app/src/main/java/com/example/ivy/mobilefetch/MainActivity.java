@@ -21,6 +21,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * @author Michael Seils and Ivy Sugars
+ * 12/13/16
+ * @version 2.5
+ */
 public class MainActivity extends AppCompatActivity {
     EditText zipcodeText;
     TextView responseView;
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     */
     class GetPets extends AsyncTask<Void,Void,String> {
         private String zipcode;
         private URL url;
@@ -60,11 +68,19 @@ public class MainActivity extends AppCompatActivity {
         static final String FORMAT = "format=json";
         Intent photoActivityIntent;
 
+        /**
+         *
+         */
         protected void onPreExecute() {
             responseView.setText("");
             zipcode = zipcodeText.getText().toString();
         }
 
+        /**
+         *
+         * @param urls
+         * @return
+         */
         @Override
         protected String doInBackground(Void... urls) {
 
@@ -92,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         *
+         * @param response
+         */
         protected void onPostExecute(String response) {
             handNullResponse(response);
             ArrayList<Pet> pets = new ArrayList<>();

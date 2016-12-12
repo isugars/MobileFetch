@@ -58,6 +58,11 @@ public class PhotoDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
