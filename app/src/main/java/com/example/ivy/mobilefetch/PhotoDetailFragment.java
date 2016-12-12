@@ -24,15 +24,8 @@ import java.io.InputStream;
  * on handsets.
  */
 public class PhotoDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
+    public static final String ARG_ITEM_ID = "item_id";
     private Pet mItem;
 
     /**
@@ -47,16 +40,12 @@ public class PhotoDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            //mItem = PetContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
             mItem = PhotoListActivity.PET_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getName()); //(mItem.content);
+                appBarLayout.setTitle(mItem.getName());
             }
         }
     }
@@ -65,19 +54,15 @@ public class PhotoDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.photo_detail, container, false);
-
-        //description text
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.photo_detail)).setText(mItem.getDescription());
             new DownloadImageTask((ImageView)rootView.findViewById(R.id.content)).execute(mItem.getPhoto());
         }
-
         return rootView;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
-
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }

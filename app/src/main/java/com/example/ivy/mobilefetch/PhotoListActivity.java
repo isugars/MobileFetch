@@ -34,16 +34,9 @@ import java.util.Map;
  * item details side-by-side using two vertical panes.
  */
 public class PhotoListActivity extends AppCompatActivity {
-
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private boolean mTwoPane;
-
     public static ArrayList<Pet> petItems = new ArrayList<>();
     public static Map<String, Pet> PET_MAP = new HashMap<>();
-
     EditText zipcodeText;
     TextView responseView;
 
@@ -55,22 +48,10 @@ public class PhotoListActivity extends AppCompatActivity {
         zipcodeText = (EditText)findViewById(R.id.zipcodeText);
         responseView = (TextView)findViewById(R.id.responseView);
 
-        /* (search bar) commented out for later removal
-        Button queryButton = (Button) findViewById(R.id.button_search);
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //new GetPets().execute();
-                startActivity(new Intent(PhotoListActivity.this, PhotoListActivity.class));
-            }
-        });
-        */
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        // commented out for later removal (or later use as template)
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,11 +60,8 @@ public class PhotoListActivity extends AppCompatActivity {
             }
         });
 
-
-        //get list of pets from intent
         petItems = getIntent().getParcelableArrayListExtra("activitypets");
 
-        //fill hashmap for detail fragment
         for(int i = 0; i < petItems.size(); i++)
             PET_MAP.put(petItems.get(i).getName(), petItems.get(i));
 
@@ -92,10 +70,6 @@ public class PhotoListActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView, petItems);
 
         if (findViewById(R.id.photo_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
     }
@@ -106,10 +80,8 @@ public class PhotoListActivity extends AppCompatActivity {
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-        //results from the iterated JSON String--make a list of JSON objects that are photos
         private final List<Pet> mValues;
 
-        //takes the list of Pet objects and sets them to items
         public SimpleItemRecyclerViewAdapter(List<Pet> items) {
             mValues = items;
         }
@@ -126,8 +98,6 @@ public class PhotoListActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getName() + "\n" + mValues.get(position).getCity() + ", " + mValues.get(position).getState());
             new DownloadImageTask(holder.mContentView).execute(mValues.get(position).getPhoto());
-
-            //accordian expansion to display details
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
