@@ -25,11 +25,18 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        defineUI(savedInstanceState);
+        retrieveWidgets(savedInstanceState);
+    }
+
+    private void defineUI(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
+    }
 
+    private void retrieveWidgets(Bundle savedInstanceState){
         pets = getIntent().getParcelableArrayListExtra("activitypets");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -41,11 +48,16 @@ public class PhotoDetailActivity extends AppCompatActivity {
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        handleActionBar(getSupportActionBar());
+        handleNullBundle(savedInstanceState);
+    }
 
+    private void handleActionBar(ActionBar actionBar){
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void handleNullBundle(Bundle savedInstanceState){
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
             arguments.putString(PhotoDetailFragment.ARG_ITEM_ID,
@@ -59,9 +71,9 @@ public class PhotoDetailActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param item
-     * @return
+     * Method to handle user selection of a menu item.
+     * @param item - MenuItem selected by user.
+     * @return - true if a menu item was successfully handled or false if it wasn't.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

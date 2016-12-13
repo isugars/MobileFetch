@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     class GetPets extends AsyncTask<Void,Void,String> {
         private String zipcode;
         private URL url;
-        static final int MAXPETS=50;
         static final String METHOD = "pet.find?";
         static final String API_KEY = "1e75a3f1a65d2d1ab6441a067e8cd602";
         static final String API_URL = "http://api.petfinder.com/";
