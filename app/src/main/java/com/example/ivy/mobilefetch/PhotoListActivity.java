@@ -43,9 +43,19 @@ public class PhotoListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        defineUI(savedInstanceState);
+        retrieveWidgets();
+        fillHashMapForDetailFragment();
+        defineView();
+        handleIfLargeScreenLayout();
+    }
+
+    private void defineUI(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_list);
+    }
 
+    private void retrieveWidgets(){
         zipcodeText = (EditText)findViewById(R.id.zipcodeText);
         responseView = (TextView)findViewById(R.id.responseView);
 
@@ -60,16 +70,21 @@ public class PhotoListActivity extends AppCompatActivity {
                 startActivity(new Intent(PhotoListActivity.this, MainActivity.class));
             }
         });
+    }
 
+    private void fillHashMapForDetailFragment(){
         petItems = getIntent().getParcelableArrayListExtra("activitypets");
-
         for(int i = 0; i < petItems.size(); i++)
             PET_MAP.put(petItems.get(i).getName(), petItems.get(i));
+    }
 
+    private void defineView(){
         View recyclerView = findViewById(R.id.photo_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView, petItems);
+    }
 
+    private void handleIfLargeScreenLayout(){
         if (findViewById(R.id.photo_detail_container) != null) {
             mTwoPane = true;
         }
@@ -80,25 +95,25 @@ public class PhotoListActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Implements RecyclerView
      */
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
         private final List<Pet> mValues;
 
         /**
-         *
-         * @param items
+         * Method takes a list of Pet objects and sets them to items.
+         * @param items - a list of Pet objects.
          */
         public SimpleItemRecyclerViewAdapter(List<Pet> items) {
             mValues = items;
         }
 
         /**
-         *
-         * @param parent
-         * @param viewType
-         * @return
+         * Method called when RecyclerView needs a new ViewHolder to represent an item.
+         * @param parent - The ViewGroup into which the new View will be added after it is bound to an adapter position.
+         * @param viewType - The view type of the new View.
+         * @return - The new ViewHolder that holds a View of the given type.
          */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -108,9 +123,9 @@ public class PhotoListActivity extends AppCompatActivity {
         }
 
         /**
-         *
-         * @param holder
-         * @param position
+         * Method to display the data at a given position.
+         * @param holder - The ViewHolder which should be updated to represent the Pet objects at the given position.
+         * @param position -  The position of the Pet object within the adapter's data set.
          */
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -143,8 +158,8 @@ public class PhotoListActivity extends AppCompatActivity {
         }
 
         /**
-         *
-         * @return
+         * Method to get the number of Pet objects held by the adapter.
+         * @return - Total number of Pet objects held by adapter.
          */
         @Override
         public int getItemCount() {
@@ -152,7 +167,7 @@ public class PhotoListActivity extends AppCompatActivity {
         }
 
         /**
-         *
+         * Class to describe a Pet object view and metadata about its place within the RecyclerView.
          */
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
@@ -161,6 +176,10 @@ public class PhotoListActivity extends AppCompatActivity {
             public final TextView mLocationView;
             public Pet mItem;
 
+            /**
+             * Constructor takes a View and creates a ViewHolder.
+             * @param view - View used to create holder.
+             */
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
@@ -169,6 +188,10 @@ public class PhotoListActivity extends AppCompatActivity {
                 mLocationView = (TextView) view.findViewById(R.id.location);
             }
 
+            /**
+             * Method to return a string representation of the object.
+             * @return - A string representing the object.
+             */
             @Override
             public String toString() {
                 return super.toString() + " '" + mIdView.getText() + "'";
