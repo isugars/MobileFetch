@@ -37,8 +37,10 @@ public class PhotoDetailFragment extends Fragment {
     }
 
     /**
-     *
-     * @param savedInstanceState
+     * Method that handles initialization at creation of PhotoDetailFragment.
+     * @param savedInstanceState -  If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently supplied
+     *                           in onSaveInstanceState(Bundle), otherwise null.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,14 @@ public class PhotoDetailFragment extends Fragment {
     }
 
     /**
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * Method to have fragment instantiate UI.
+     * @param inflater -  The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container -  If non-null, this is the parent view that the fragment's UI should be attached
+     *                  to. The fragment should not add the view itself, but this can be used to generate
+     *                  the LayoutParams of the view.
+     * @param savedInstanceState -  If non-null, this fragment is being re-constructed from a previous
+     *                              saved state as given here.
+     * @return -  The View for the fragment's UI, or null.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
