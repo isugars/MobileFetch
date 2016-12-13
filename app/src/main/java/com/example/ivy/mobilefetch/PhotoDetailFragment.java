@@ -22,11 +22,12 @@ import java.io.InputStream;
  * This fragment is either contained in a {@link PhotoListActivity}
  * in two-pane mode (on tablets) or a {@link PhotoDetailActivity}
  * on handsets.
+ * Altered Android Studio template.
  */
 public class PhotoDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private Pet mItem;
+    private Pet petItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,12 +45,12 @@ public class PhotoDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mItem = PhotoListActivity.PET_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            petItem = PhotoListActivity.PET_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getName());
+                appBarLayout.setTitle(petItem.getName());
             }
         }
     }
@@ -65,9 +66,9 @@ public class PhotoDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.photo_detail, container, false);
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.photo_detail)).setText(mItem.getDescription());
-            new DownloadImageTask((ImageView)rootView.findViewById(R.id.content)).execute(mItem.getPhoto());
+        if (petItem != null) {
+            ((TextView) rootView.findViewById(R.id.photo_detail)).setText(petItem.getDescription());
+            new DownloadImageTask((ImageView)rootView.findViewById(R.id.content)).execute(petItem.getPhoto());
         }
         return rootView;
     }

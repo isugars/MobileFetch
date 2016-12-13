@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link PhotoListActivity}.
+ * Altered Android Studio template.
  */
 public class PhotoDetailActivity extends AppCompatActivity {
 

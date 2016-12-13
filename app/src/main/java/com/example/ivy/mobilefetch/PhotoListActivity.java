@@ -32,6 +32,7 @@ import java.util.Map;
  * lead to a {@link PhotoDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
+ * Altered Android Studio template.
  */
 public class PhotoListActivity extends AppCompatActivity {
     private boolean mTwoPane;
