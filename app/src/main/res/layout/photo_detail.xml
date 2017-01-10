@@ -20,10 +20,11 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:baselineAlignBottom="true"
         android:layout_margin="72dp"
         android:padding="32dp"
-        android:scaleX="5"
-        android:scaleY="5"
+        android:scaleX="4"
+        android:scaleY="4"
         android:layout_gravity="center_horizontal"
         />
 </LinearLayout>
