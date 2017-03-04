@@ -1,4 +1,4 @@
-package com.example.ivy.mobilefetch;
+package jim.mobilefetch;
 
 import android.os.Parcel;
 import android.os.Parcelable;

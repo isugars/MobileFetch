@@ -1,4 +1,4 @@
-package com.example.ivy.mobilefetch;
+package jim.mobilefetch;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

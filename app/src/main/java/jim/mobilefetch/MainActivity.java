@@ -1,4 +1,4 @@
-package com.example.ivy.mobilefetch;
+package jim.mobilefetch;
 
 /**
  * @author Michael Seils and Ivy Sugars

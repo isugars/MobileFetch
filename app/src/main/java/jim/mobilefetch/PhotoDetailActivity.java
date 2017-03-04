@@ -1,4 +1,4 @@
-package com.example.ivy.mobilefetch;
+package jim.mobilefetch;
 
 import android.content.Intent;
 import android.os.Bundle;

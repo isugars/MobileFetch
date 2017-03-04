@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/photo_list"
-    android:name="com.example.ivy.mobilefetch.PhotoListFragment"
+    android:name="jim.mobilefetch.PhotoListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.ivy.mobilefetch.PhotoListActivity"
+    tools:context="jim.mobilefetch.PhotoListActivity"
     tools:listitem="@layout/photo_list_content" />
